@@ -1,19 +1,13 @@
-from pybit.unified_trading import HTTP
-import get_symbols
+import requests
+import time
+start_time = time.time()
 
-symbol = get_symbols.get_symbols()
+url = "https://api.bybit.com/v5/market/tickers?category=spot"
 
-session = HTTP(testnet=False)
+payload={}
+headers = {}
 
-print(len(symbol))
+response = requests.request("GET", url, headers=headers, data=payload)
 
-# for i in range(len(symbol)):
-    
-#     try:
-#         print(session.get_tickers(
-#             category="spot",
-#             symbol=symbol[i],
-#         ))
-
-#     except:
-#         continue
+print(response.text)
+print("--- %s seconds ---" % (time.time() - start_time))
