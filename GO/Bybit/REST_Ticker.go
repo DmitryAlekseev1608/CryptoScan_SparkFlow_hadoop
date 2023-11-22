@@ -36,6 +36,4 @@ func main() {
 
   re := regexp.MustCompile(`"symbol":\"(.*?)\",\"bid1Price`)
   fmt.Printf("%q\n", re.FindAllStringSubmatch(string(body), -1))
-
-
 }
