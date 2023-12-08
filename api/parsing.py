@@ -2,15 +2,16 @@ import datetime
 import threading
 from queue import Queue
 
-import bybit.REST_Ticker as bybit
-
-# import gate_io.API_Gate_io as gate_io
-import htx.API_HTX as htx
-import kukoin.API_Kukoin as kukoin
 import pandas as pd
 
+import api.bybit.REST_Ticker as bybit
 
-def main():
+# import gate_io.API_Gate_io as gate_io
+import api.htx.API_HTX as htx
+import api.kukoin.API_Kukoin as kukoin
+
+
+def parsing():
     cur_date = datetime.date.today()
     cur_time = datetime.datetime.now().time().strftime("%H:%M")
 
@@ -59,8 +60,8 @@ def main():
 
     df = df.iloc[:12]
     df = df[["DATA", "TIME", "MARKET", "SYMBOL", "CASH", "PRICE"]]
-    print(df)
+    return df
 
 
 if __name__ == "__main__":
-    main()
+    parsing()
