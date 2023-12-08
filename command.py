@@ -15,7 +15,7 @@ m = multiprocessing.Manager()
 QUEUE_RDD = m.list()
 
 def get_date(sqlContext):
-
+    
     QUEUE_RDD = []
     while True:
 
@@ -27,6 +27,7 @@ def get_date(sqlContext):
 def start_spark(ssc):
 
     ssc.start()
+    sleep(5)
     ssc.awaitTermination()
 
 def main():
