@@ -67,7 +67,6 @@ def parsing():
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
             f.write(dfAsString)
         os.rename(f"temp/pars/temp.txt", "temp/spark/temp.txt")
-        break
 
         while cur_time == datetime.datetime.now().time().strftime("%H:%M"):
             pass

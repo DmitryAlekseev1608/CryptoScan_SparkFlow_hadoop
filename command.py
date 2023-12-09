@@ -29,11 +29,11 @@ def start_spark():
 
 def main():
     p_pars = Process(target=parsing)
-    # p_spark = Process(target=start_spark)
+    p_spark = Process(target=start_spark)
     p_pars.start()
-    # p_spark.start()
+    p_spark.start()
     p_pars.join()
-    # p_spark.join()
+    p_spark.join()
 
 
 if __name__ == "__main__":
