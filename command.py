@@ -1,3 +1,4 @@
+import re
 from multiprocessing import Process
 
 import pandas as pd
@@ -10,11 +11,18 @@ from pyspark.streaming import StreamingContext
 from api.parsing import parsing
 
 
+def process_stream(record, spark):
+    if not record.isEmpty():
+        df = spark.createDataFrame(record)
+        df.show()
+
+
 def start_spark():
     sc = SparkContext("local[*]", "cryptoscan")
-    ssc = StreamingContext(sc, 10)
-    inputStream = ssc.textFileStream("temp/spark")
-    inputStream.pprint()
+    spark = SparkSession(sc)
+    ssc = StreamingContext(sc, 1)
+    inputStream = ssc.textFileStream("temp/spark").map(lambda x: re.split(r"\s+", x))
+    inputStream.foreachRDD(lambda rdd: process_stream(rdd, spark))
     ssc.start()
     ssc.awaitTermination()
 
