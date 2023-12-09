@@ -12,8 +12,8 @@ from api.parsing import parsing
 
 def start_spark():
     sc = SparkContext("local[*]", "cryptoscan")
-    ssc = StreamingContext(sc, 3)
-    inputStream = ssc.textFileStream("temp")
+    ssc = StreamingContext(sc, 10)
+    inputStream = ssc.textFileStream("temp/spark")
     inputStream.pprint()
     ssc.start()
     ssc.awaitTermination()
