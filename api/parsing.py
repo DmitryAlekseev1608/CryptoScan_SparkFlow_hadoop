@@ -1,7 +1,7 @@
 import datetime
-import os
 import threading
 from queue import Queue
+from subprocess import PIPE, Popen
 
 import pandas as pd
 
@@ -63,10 +63,12 @@ def parsing():
         df = df.sort_values(by=["SYMBOL"], ignore_index=True, ascending=False)
         df = df[["DATA", "TIME", "MARKET", "SYMBOL", "PRICE"]]
 
-        with open(f"temp/pars/temp.txt", "w") as f:
+        with open("temp/market.txt", "w") as f:
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
             f.write(dfAsString)
-        os.rename(f"temp/pars/temp.txt", "temp/spark/temp.txt")
+
+        put = Popen(["hdfs", "dfs", "-put", "-f", "temp/market.txt", "temp/market.txt"], stdin=PIPE, bufsize=-1)
+        put.communicate()
 
         while cur_time == datetime.datetime.now().time().strftime("%H:%M"):
             pass
