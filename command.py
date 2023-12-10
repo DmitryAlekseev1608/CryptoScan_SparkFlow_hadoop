@@ -13,13 +13,16 @@ def process_stream(record, spark):
         df = spark.createDataFrame(record)
         df = df.selectExpr("_1 as DATA", "_2 as TIME", "_3 as MARKET", "_4 as SYMBOL", "_5 as PRICE")
         df.show()
+        df.repartition(2).write.mode("append").partitionBy("SYMBOL").format("parquet").option(
+            "compression", "snappy"
+        ).save("result")
 
 
 def start_spark():
     sc = SparkContext("local[*]", "cryptoscan")
     spark = SparkSession(sc)
     ssc = StreamingContext(sc, 1)
-    inputStream = ssc.textFileStream(".").map(lambda x: re.split(r"\s+", x))
+    inputStream = ssc.textFileStream("temp").map(lambda x: re.split(r"\s+", x))
     inputStream.foreachRDD(lambda rdd: process_stream(rdd, spark))
     ssc.start()
     ssc.awaitTermination()

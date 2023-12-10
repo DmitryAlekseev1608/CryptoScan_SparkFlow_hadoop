@@ -67,7 +67,7 @@ def parsing():
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
             f.write(dfAsString)
 
-        put = Popen(["hdfs", "dfs", "-put", "-f", "temp/market.txt", "market.txt"], stdin=PIPE, bufsize=-1)
+        put = Popen(["hdfs", "dfs", "-put", "-f", "temp/market.txt", "temp/market.txt"], stdin=PIPE, bufsize=-1)
         put.communicate()
 
         while cur_time == datetime.datetime.now().time().strftime("%H:%M"):
