@@ -19,7 +19,7 @@ def start_spark():
     sc = SparkContext("local[*]", "cryptoscan")
     spark = SparkSession(sc)
     ssc = StreamingContext(sc, 1)
-    inputStream = ssc.textFileStream("temp/spark").map(lambda x: re.split(r"\s+", x))
+    inputStream = ssc.textFileStream(".").map(lambda x: re.split(r"\s+", x))
     inputStream.foreachRDD(lambda rdd: process_stream(rdd, spark))
     ssc.start()
     ssc.awaitTermination()
