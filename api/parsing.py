@@ -54,14 +54,14 @@ def parsing():
 
         df = df.assign(COUNT=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("count"))
         df = df[df.COUNT > 1]
-        df = df.assign(MIN=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("min"))
-        df = df.assign(MAX=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("max"))
+        df = df[df["CASH"] == "USDT"]
 
-        df["DIFFER"] = df.apply(lambda row: row.MAX - row.MIN, axis=1)
-        df = df.sort_values(by=["DIFFER", "PRICE"], ignore_index=True, ascending=False)
+        # df = df.assign(MIN=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("min"))
+        # df = df.assign(MAX=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("max"))
+        # df["DIFFER"] = df.apply(lambda row: row.MAX - row.MIN, axis=1)
 
-        df = df.iloc[:12]
-        df = df[["DATA", "TIME", "MARKET", "SYMBOL", "CASH", "PRICE"]]
+        df = df.sort_values(by=["SYMBOL"], ignore_index=True, ascending=False)
+        df = df[["DATA", "TIME", "MARKET", "SYMBOL", "PRICE"]]
 
         with open(f"temp/pars/temp.txt", "w") as f:
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"

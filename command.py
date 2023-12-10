@@ -1,11 +1,8 @@
 import re
 from multiprocessing import Process
 
-import pandas as pd
-import pyspark
-import tqdm
 from pyspark import SparkContext
-from pyspark.sql import SparkSession, SQLContext
+from pyspark.sql import SparkSession
 from pyspark.streaming import StreamingContext
 
 from api.parsing import parsing
@@ -14,6 +11,7 @@ from api.parsing import parsing
 def process_stream(record, spark):
     if not record.isEmpty():
         df = spark.createDataFrame(record)
+        df = df.selectExpr("_1 as DATA", "_2 as TIME", "_3 as MARKET", "_4 as SYMBOL", "_5 as PRICE")
         df.show()
 
 
