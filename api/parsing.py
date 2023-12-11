@@ -56,10 +56,6 @@ def parsing():
         df = df[df.COUNT > 1]
         df = df[df["CASH"] == "USDT"]
 
-        # df = df.assign(MIN=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("min"))
-        # df = df.assign(MAX=df.groupby(by=["SYMBOL", "CASH"])["PRICE"].transform("max"))
-        # df["DIFFER"] = df.apply(lambda row: row.MAX - row.MIN, axis=1)
-
         df = df.sort_values(by=["SYMBOL"], ignore_index=True, ascending=False)
         df = df[["DATA", "TIME", "MARKET", "SYMBOL", "PRICE"]]
 

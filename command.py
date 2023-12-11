@@ -5,6 +5,7 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.streaming import StreamingContext
 
+from airflow.execute import executing_data
 from api.parsing import parsing
 
 
@@ -12,8 +13,7 @@ def process_stream(record, spark):
     if not record.isEmpty():
         df = spark.createDataFrame(record)
         df = df.selectExpr("_1 as DATA", "_2 as TIME", "_3 as MARKET", "_4 as SYMBOL", "_5 as PRICE")
-        df.show()
-        df.repartition(2).write.mode("append").partitionBy("SYMBOL").format("parquet").option(
+        df.repartition(2).write.mode("append").partitionBy("DATA", "SYMBOL").format("parquet").option(
             "compression", "snappy"
         ).save("result")
 
@@ -31,10 +31,13 @@ def start_spark():
 def main():
     p_pars = Process(target=parsing)
     p_spark = Process(target=start_spark)
+    p_exec = Process(target=executing_data)
     p_pars.start()
     p_spark.start()
+    p_exec.start()
     p_pars.join()
     p_spark.join()
+    p_exec.join()
 
 
 if __name__ == "__main__":
