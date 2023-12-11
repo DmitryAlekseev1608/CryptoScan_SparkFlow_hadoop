@@ -1,12 +1,7 @@
 import datetime
-
-import spark
 from pyspark import SparkContext
-from pyspark.sql import Row, SparkSession, SQLContext
-from ..tgbot import telegrambot
-
-# from command import spark
-
+from pyspark.sql import SparkSession
+from airflow.tgbot.telegrambot import send_dataframe_to_telegram
 
 def executing_data():
     sc = SparkContext()
@@ -28,6 +23,6 @@ def executing_data():
     df = df[["TIME", "MARKET", "SYMBOL", "PRICE"]]
 
     print(df)
-    telegrambot.send_dataframe_to_telegram(df)
+    send_dataframe_to_telegram(df)
 
 

@@ -4,9 +4,12 @@ from dotenv import load_dotenv
 import logging
 import os
 
-bot_api_token = os.getenv('TELEGRAM_BOT_API_TOKEN')
+YOUR_TELEGRAM_BOT_API_TOKEN="6461265385:AAFR2e6PC6xHL4luokHiL9mBn4LTyoeXVL8"
+YOUR_TELEGRAM_CHAT_IDS=[562928180]
+
+bot_api_token = YOUR_TELEGRAM_BOT_API_TOKEN
 bot = telebot.TeleBot(bot_api_token)
-chat_ids = os.getenv('TELEGRAM_CHAT_IDS')
+chat_ids = YOUR_TELEGRAM_CHAT_IDS
 
 
 def send_dataframe_to_telegram(dataframe):

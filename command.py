@@ -5,7 +5,7 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.streaming import StreamingContext
 
-from airflow.execute import executing_data
+from airflow.current import executing_data
 from api.parsing import parsing
 
 
