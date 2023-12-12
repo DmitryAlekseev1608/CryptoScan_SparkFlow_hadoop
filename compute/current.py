@@ -2,8 +2,8 @@ import datetime
 
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
-
 from tgbot.telegrambot import send_dataframe_to_telegram
+
 
 def main():
     sc = SparkContext()
@@ -25,6 +25,7 @@ def main():
     df = df[["TIME", "MARKET", "SYMBOL", "PRICE"]]
 
     send_dataframe_to_telegram(df)
+
 
 if __name__ == "__main__":
     main()
