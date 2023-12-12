@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
@@ -25,6 +26,7 @@ def main():
     df = df[["TIME", "MARKET", "SYMBOL", "PRICE"]]
 
     send_dataframe_to_telegram(df)
+    logging.info(df)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,8 @@
 import datetime
+import logging
 
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
-
-import datetime
 
 
 def main():
@@ -23,6 +22,7 @@ def main():
 
     df.to_csv("data/result.csv", index=False)
     print(df)
+    logging.info(df)
 
 
 if __name__ == "__main__":

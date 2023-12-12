@@ -1,3 +1,4 @@
+import logging
 import re
 from multiprocessing import Process
 
@@ -16,6 +17,7 @@ def process_stream(record, spark):
             "compression", "snappy"
         ).save("result")
         df.show()
+        logging.info(df)
 
 
 def start_spark():
