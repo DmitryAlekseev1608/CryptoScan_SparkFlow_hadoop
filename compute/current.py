@@ -2,11 +2,10 @@ import datetime
 
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
+from tgbot.telegrambot import send_dataframe_to_telegram
 
-from airflow.tgbot.telegrambot import send_dataframe_to_telegram
 
-
-def executing_data():
+def main():
     sc = SparkContext()
     spark = SparkSession(sc)
     cur_date = datetime.date.today()
@@ -25,5 +24,8 @@ def executing_data():
     df = df.sort_values(by=["DIFFER"], ignore_index=True, ascending=False)[:12]
     df = df[["TIME", "MARKET", "SYMBOL", "PRICE"]]
 
-    print(df)
     send_dataframe_to_telegram(df)
+
+
+if __name__ == "__main__":
+    main()
