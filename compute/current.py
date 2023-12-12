@@ -1,7 +1,10 @@
 import datetime
+
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
+
 from compute.tgbot.telegrambot import send_dataframe_to_telegram
+
 
 def executing_data():
     sc = SparkContext()
@@ -24,5 +27,3 @@ def executing_data():
 
     print(df)
     send_dataframe_to_telegram(df)
-
-

@@ -37,7 +37,6 @@ def get_data_from_endpoint(queue, cur_date, cur_time):
         list_price = []
 
         for i in range(len(data)):
-
             if data[i]["last"] != None:
                 list_cur_date.append(cur_date)
                 list_cur_time.append(cur_time)
