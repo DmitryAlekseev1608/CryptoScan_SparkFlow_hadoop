@@ -37,13 +37,15 @@ def get_data_from_endpoint(queue, cur_date, cur_time):
         list_price = []
 
         for i in range(len(data)):
-            list_cur_date.append(cur_date)
-            list_cur_time.append(cur_time)
-            list_market.append("kukoin")
-            symbol_pars, cash_pars = parsing_symbol(data[i]["symbol"])
-            list_symbol.append(symbol_pars)
-            list_cash.append(cash_pars)
-            list_price.append(float(data[i]["last"]))
+
+            if data[i]["last"] != None:
+                list_cur_date.append(cur_date)
+                list_cur_time.append(cur_time)
+                list_market.append("kukoin")
+                symbol_pars, cash_pars = parsing_symbol(data[i]["symbol"])
+                list_symbol.append(symbol_pars)
+                list_cash.append(cash_pars)
+                list_price.append(float(str(data[i]["last"])))
 
         dict_market = {
             "DATA": list_cur_date,
