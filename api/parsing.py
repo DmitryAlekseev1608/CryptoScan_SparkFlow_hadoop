@@ -1,4 +1,6 @@
 import datetime
+import os
+import stat
 import threading
 from queue import Queue
 from subprocess import PIPE, Popen
@@ -9,8 +11,6 @@ import api.bybit.REST_Ticker as bybit
 import api.gate_io.API_Gate_io as gate_io
 import api.htx.API_HTX as htx
 import api.kukoin.API_Kukoin as kukoin
-import os
-import stat
 
 
 def parsing():
@@ -62,7 +62,6 @@ def parsing():
         df = df[["DATA", "TIME", "MARKET", "SYMBOL", "PRICE"]]
 
         PATH1 = "/opt/hadoop/airflow/dags/alex_crypto/temp/market.txt"
-        PATH2 = "/temp/market.txt"
 
         with open(PATH1, "w") as f:
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
@@ -71,7 +70,7 @@ def parsing():
         os.chmod(PATH1, stat.S_IROTH)
         os.chmod(PATH1, stat.S_IWOTH)
         os.chmod(PATH1, stat.S_IXOTH)
-        
+
         put = Popen(["hdfs", "dfs", "-put", "-f", PATH1, "/user/alekseevdo/temp/market.txt"], stdin=PIPE, bufsize=-1)
         put.communicate()
 

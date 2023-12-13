@@ -17,6 +17,7 @@ def process_stream(record, spark):
         ).save("/user/alekseevdo/result")
         df.show()
 
+
 def start_spark():
     sc = SparkContext("yarn", "cryptoscan")
     spark = SparkSession(sc)
