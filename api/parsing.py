@@ -7,10 +7,15 @@ from subprocess import PIPE, Popen
 
 import pandas as pd
 
+import sys
+
+sys.path.append("/opt/hadoop/airflow/dags/alex_crypto/")
+
 import api.bybit.REST_Ticker as bybit
 import api.gate_io.API_Gate_io as gate_io
 import api.htx.API_HTX as htx
 import api.kukoin.API_Kukoin as kukoin
+
 
 
 def parsing():
@@ -64,12 +69,11 @@ def parsing():
         PATH1 = "/opt/hadoop/airflow/dags/alex_crypto/temp/market.txt"
 
         with open(PATH1, "w") as f:
+            os.chmod(PATH1, stat.S_IROTH)
+            os.chmod(PATH1, stat.S_IWOTH)
+            os.chmod(PATH1, stat.S_IXOTH)
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
             f.write(dfAsString)
-
-        os.chmod(PATH1, stat.S_IROTH)
-        os.chmod(PATH1, stat.S_IWOTH)
-        os.chmod(PATH1, stat.S_IXOTH)
 
         put = Popen(["hdfs", "dfs", "-put", "-f", PATH1, "/user/alekseevdo/temp/market.txt"], stdin=PIPE, bufsize=-1)
         put.communicate()

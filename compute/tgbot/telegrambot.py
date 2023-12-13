@@ -1,8 +1,6 @@
 import logging
 
-import pandas as pd
 import telebot
-from dotenv import load_dotenv
 
 YOUR_TELEGRAM_BOT_API_TOKEN = "6461265385:AAFR2e6PC6xHL4luokHiL9mBn4LTyoeXVL8"
 YOUR_TELEGRAM_CHAT_IDS = [562928180, 787818288, 454154200, 134136283]

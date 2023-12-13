@@ -10,7 +10,7 @@ from airflow.operators.python_operator import PythonOperator
 
 import command
 
-# import compute.current
+import compute.current
 import compute.days
 
 default_args = {"owner": "alex", "start_date": dt.datetime(2023, 12, 12)}
