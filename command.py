@@ -18,7 +18,7 @@ def process_stream(record, spark):
         df.show()
 
 def start_spark():
-    sc = SparkContext("local[*]", "cryptoscan")
+    sc = SparkContext("yarn", "cryptoscan")
     spark = SparkSession(sc)
     ssc = StreamingContext(sc, 1)
     inputStream = ssc.textFileStream("/user/alekseevdo/temp").map(lambda x: re.split(r"\s+", x))

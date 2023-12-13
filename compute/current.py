@@ -6,7 +6,7 @@ from compute.tgbot.telegrambot import send_dataframe_to_telegram
 
 
 def main():
-    sc = SparkContext()
+    sc = SparkContext("yarn")
     spark = SparkSession(sc)
     cur_date = datetime.date.today()
     sdf = spark.read.option("mergeSchema", "true").parquet(f"/user/alekseevdo/result/DATA={cur_date}")

@@ -5,7 +5,7 @@ from pyspark.sql import SparkSession
 
 
 def main():
-    sc = SparkContext("local[*]")
+    sc = SparkContext("yarn")
     spark = SparkSession(sc)
     cur_date = datetime.date.today()
     sdf = spark.read.option("mergeSchema", "true").parquet(f"/user/alekseevdo/result/DATA={cur_date}")
