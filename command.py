@@ -1,4 +1,3 @@
-import logging
 import re
 from multiprocessing import Process
 
@@ -15,17 +14,16 @@ def process_stream(record, spark):
         df = df.selectExpr("_1 as DATA", "_2 as TIME", "_3 as MARKET", "_4 as SYMBOL", "_5 as PRICE")
         df.repartition(2).write.mode("append").partitionBy("DATA", "SYMBOL").format("parquet").option(
             "compression", "snappy"
-        ).save("result")
+        ).save("/user/alekseevdo/result")
         df.show()
-        logging.info(df)
-
 
 def start_spark():
     sc = SparkContext("local[*]", "cryptoscan")
     spark = SparkSession(sc)
     ssc = StreamingContext(sc, 1)
-    inputStream = ssc.textFileStream("temp").map(lambda x: re.split(r"\s+", x))
+    inputStream = ssc.textFileStream("/user/alekseevdo/temp").map(lambda x: re.split(r"\s+", x))
     inputStream.foreachRDD(lambda rdd: process_stream(rdd, spark))
+    inputStream.pprint()
     ssc.start()
     ssc.awaitTermination()
 

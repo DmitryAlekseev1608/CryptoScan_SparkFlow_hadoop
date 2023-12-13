@@ -1,16 +1,15 @@
 import datetime
-import logging
 
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
-from tgbot.telegrambot import send_dataframe_to_telegram
+from compute.tgbot.telegrambot import send_dataframe_to_telegram
 
 
 def main():
     sc = SparkContext()
     spark = SparkSession(sc)
     cur_date = datetime.date.today()
-    sdf = spark.read.option("mergeSchema", "true").parquet(f"result/DATA={cur_date}")
+    sdf = spark.read.option("mergeSchema", "true").parquet(f"/user/alekseevdo/result/DATA={cur_date}")
     df = sdf.toPandas()
     df = df[df["TIME"] == df["TIME"].max()]
     df["PRICE"] = df["PRICE"].apply(lambda x: x.replace(",", ".")).astype(float)
@@ -26,7 +25,7 @@ def main():
     df = df[["TIME", "MARKET", "SYMBOL", "PRICE"]]
 
     send_dataframe_to_telegram(df)
-    logging.info(df)
+    print(df)
 
 
 if __name__ == "__main__":
