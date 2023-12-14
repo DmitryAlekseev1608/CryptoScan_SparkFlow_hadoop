@@ -15,7 +15,8 @@ import compute.days
 
 default_args = {"owner": "alex", "start_date": dt.datetime(2023, 12, 12)}
 
-with DAG("alex_cryptoscan", default_args=default_args, dagrun_timeout=dt.timedelta(minutes=60)) as dag:
+with DAG("alex_crypt_002", default_args=default_args, dagrun_timeout=dt.timedelta(minutes=60)) as dag:
+    
     air_command = PythonOperator(task_id="delivery_hadoop", python_callable=command.main)
 
     air_current = PythonOperator(task_id="current_best_in_telegram", python_callable=compute.current.main)

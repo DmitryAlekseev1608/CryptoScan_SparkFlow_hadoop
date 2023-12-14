@@ -66,16 +66,14 @@ def parsing():
         df = df.sort_values(by=["SYMBOL"], ignore_index=True, ascending=False)
         df = df[["DATA", "TIME", "MARKET", "SYMBOL", "PRICE"]]
 
-        PATH1 = "/opt/hadoop/airflow/dags/alex_crypto/temp/market.txt"
+        PATH = "/opt/hadoop/airflow/dags/alex_crypto/temp/market.txt"
 
-        with open(PATH1, "w") as f:
-            os.chmod(PATH1, stat.S_IROTH)
-            os.chmod(PATH1, stat.S_IWOTH)
-            os.chmod(PATH1, stat.S_IXOTH)
+        with open(os.open(PATH, os.O_RDWR, mode=777), "w") as f:
+
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
             f.write(dfAsString)
 
-        put = Popen(["hdfs", "dfs", "-put", "-f", PATH1, "/user/alekseevdo/temp/market.txt"], stdin=PIPE, bufsize=-1)
+        put = Popen(["hdfs", "dfs", "-put", "-f", PATH, "/user/alekseevdo/temp/market.txt"], stdin=PIPE, bufsize=-1)
         put.communicate()
 
         while cur_time == datetime.datetime.now().time().strftime("%H:%M"):

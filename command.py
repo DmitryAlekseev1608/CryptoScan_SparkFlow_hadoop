@@ -24,7 +24,6 @@ def start_spark():
     ssc = StreamingContext(sc, 1)
     inputStream = ssc.textFileStream("/user/alekseevdo/temp").map(lambda x: re.split(r"\s+", x))
     inputStream.foreachRDD(lambda rdd: process_stream(rdd, spark))
-    inputStream.pprint()
     ssc.start()
     ssc.awaitTermination()
 
