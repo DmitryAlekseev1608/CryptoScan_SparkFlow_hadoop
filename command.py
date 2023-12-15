@@ -19,6 +19,7 @@ def process_stream(record, spark):
 
 
 def start_spark():
+
     sc = SparkContext("local[*]", "cryptoscan")
     spark = SparkSession(sc)
     ssc = StreamingContext(sc, 1)

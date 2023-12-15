@@ -15,6 +15,6 @@ with DAG(
     "alex_crypt_days_result",
     default_args=default_args,
     dagrun_timeout=dt.timedelta(minutes=60),
-    schedule_interval="@hourly",
+    schedule_interval="@daily",
 ) as dag:
     air_days = PythonOperator(task_id="all_price_in_prometheus", python_callable=compute.days.main)
