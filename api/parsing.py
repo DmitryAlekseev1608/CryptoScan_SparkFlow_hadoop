@@ -1,21 +1,14 @@
 import datetime
-import os
-import stat
 import threading
 from queue import Queue
 from subprocess import PIPE, Popen
 
 import pandas as pd
 
-import sys
-
-sys.path.append("/opt/hadoop/airflow/dags/alex_crypto/")
-
 import api.bybit.REST_Ticker as bybit
 import api.gate_io.API_Gate_io as gate_io
 import api.htx.API_HTX as htx
 import api.kukoin.API_Kukoin as kukoin
-
 
 
 def parsing():
@@ -66,10 +59,9 @@ def parsing():
         df = df.sort_values(by=["SYMBOL"], ignore_index=True, ascending=False)
         df = df[["DATA", "TIME", "MARKET", "SYMBOL", "PRICE"]]
 
-        PATH = "/opt/hadoop/airflow/dags/alex_crypto/temp/market.txt"
+        PATH = "/home/alekseevdo/CryptoScan/temp/market.txt"
 
-        with open(os.open(PATH, os.O_RDWR, mode=777), "w") as f:
-
+        with open(PATH, "w") as f:
             dfAsString = df.to_string(header=False, index=False, decimal=",") + "\n"
             f.write(dfAsString)
 

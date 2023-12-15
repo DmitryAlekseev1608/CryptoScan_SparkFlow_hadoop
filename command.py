@@ -19,10 +19,10 @@ def process_stream(record, spark):
 
 
 def start_spark():
-    sc = SparkContext("yarn", "cryptoscan")
+    sc = SparkContext("local[*]", "cryptoscan")
     spark = SparkSession(sc)
     ssc = StreamingContext(sc, 1)
-    inputStream = ssc.textFileStream("/user/alekseevdo/temp").map(lambda x: re.split(r"\s+", x))
+    inputStream = ssc.textFileStream("temp").map(lambda x: re.split(r"\s+", x))
     inputStream.foreachRDD(lambda rdd: process_stream(rdd, spark))
     ssc.start()
     ssc.awaitTermination()
